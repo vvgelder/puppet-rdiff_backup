@@ -25,19 +25,19 @@
 # === Examples
 #
 #  class { rdiff_backup:
-       confdir   => '/etc/rdiff',
-       retention => '1M',
-       dest      => '/var/backup/rdiff',
-       options   => '--exclude-device-files',
-       glob      => [ 
-                      '+ /etc',
-                      '- /etc/X11',
-                      '+ /root',
-                      '+ /home',
-                      '+ /var/www',
-                      '+ /var/spool/cron',
-                      '+ /var/mail',
-                    ], 
+#       confdir   => '/etc/rdiff',
+#       retention => '1M',
+#       dest      => '/var/backup/rdiff',
+#       options   => '--exclude-device-files',
+#       glob      => [ 
+#                      '+ /etc',
+#                      '- /etc/X11',
+#                      '+ /root',
+#                      '+ /home',
+#                      '+ /var/www',
+#                      '+ /var/spool/cron',
+#                      '+ /var/mail',
+#                    ], 
 #  }
 #
 # === Authors

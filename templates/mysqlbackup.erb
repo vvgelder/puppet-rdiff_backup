@@ -1,0 +1,36 @@
+#!/bin/bash
+
+BACKUPDIR=<%= backupdir %>
+
+mkdir -p $BACKUPDIR
+
+for i in $(echo 'SHOW DATABASES;' | mysql|grep -v '^Database$'|grep -v '^information_schema$'|grep -v '^performance_schema'); do
+	dbname=$i
+	filename="${BACKUPDIR}/${i}.sql.gz"
+	tmpname="${BACKUPDIR}/${i}.sql.gz.tmp"
+
+	# make the backup to tmpfile
+	/usr/bin/mysqldump --ignore-table=mysql.event --skip-comments --skip-dump-date --skip-lock-tables --databases $dbname | /bin/gzip > $tmpname
+	
+	# see if dump succeeds
+	if [ $? -eq 0 ]; then
+		# see if file has earlier backup
+		if [ -f "$filename" ]; then
+			# compare with earlier backup
+			zcmp --quiet "$tmpname" "$filename"
+			if [ $? -ne 0 ]; then
+				# move tmpfile over filename
+				#echo "Backup differs from previous backup $dbname"
+				mv -f "$tmpname" "$filename"
+			else
+				# no changes so leave filename
+				#echo "No changes since previous backup $dbname"
+				rm -f "$tmpname"
+			fi
+		else
+			# move tmpfile over filename
+			#echo "No previous backup $dbname"
+			mv -f "$tmpname" "$filename"
+		fi
+	fi
+done
