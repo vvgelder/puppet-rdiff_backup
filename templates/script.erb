@@ -22,11 +22,11 @@ function info {
 #######################################################
 # Retention                                           #
 #######################################################
-if [ ! -d "<%= dest %>/<%= fqdn %>/" ]; then
-        info "Create path: <%= dest %>/<%= fqdn %>/"
-        mkdir -p <%= dest %>/<%= fqdn %>/ || ( warn "Unable to create destination directory <%= dest %>/<%= fqdn %>/" && continue )
-elif [ -d "<%= dest %>/<%= fqdn %>/rdiff-backup-data" ]; then
-        <%= bin %> --force --remove-older-than <%= retention %> <%= dest %>/<%= fqdn %>/ 
+if [ ! -d "<%= dest %>/<%= name %>/" ]; then
+        info "Create path: <%= dest %>/<%= name %>/"
+        mkdir -p <%= dest %>/<%= name %>/ || ( warn "Unable to create destination directory <%= dest %>/<%= name %>/" && continue )
+elif [ -d "<%= dest %>/<%= name %>/rdiff-backup-data" ]; then
+        <%= bin %> --force --remove-older-than <%= retention %> <%= dest %>/<%= name %>/ 
         if [[ $? -eq 0 ]]; then
                 info "Retention OK"
         else
@@ -38,7 +38,7 @@ fi
 #######################################################
 # Backup                                              #
 #######################################################
-<%= bin %> <%= options %> --force --preserve-numerical-ids --remote-schema "ssh -i <%= keyfile %> -C %s rdiff-backup --server" -b --include-globbing-filelist <%= confdir %>/<%= fqdn %>.glob --exclude '**' <%= ssh_user %>@<%= fqdn %>::/ <%= dest %>/<%= fqdn %>/
+<%= bin %> <%= options %> --force --preserve-numerical-ids --remote-schema "ssh -i <%= keyfile %> -C %s rdiff-backup --server" -b --include-globbing-filelist <%= confdir %>/<%= name %>.glob --exclude '**' <%= ssh_user %>@<%= name %>::<%=rootdir %> <%= dest %>/<%= name %>/
 if [[ $? -eq 0 ]]; then
         info "Backup OK"
 else 
