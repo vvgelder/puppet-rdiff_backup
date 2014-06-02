@@ -1,6 +1,6 @@
 # define script
 
-define rdiff_backup::script ( $bin, $confdir, $retention, $ssh_user, $rootdir, $options, $dest, $syslog = undef, $group = undef ) {
+define rdiff_backup::script ( $rdiffbin, $confdir, $retention, $ssh_user, $rootdir, $options, $dest, $syslog = undef, $group = undef ) {
 
     if $group != undef {
         $dest = "${dest}/${group}";
