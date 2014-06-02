@@ -4,19 +4,11 @@
 # Functions                                            #
 ########################################################
 function warn {
-    <% if @syslog %>
-        logger -p user.warn -t rdiff-backup $@
-    <% else %>
-        echo $@ >&2
-    <% end %>
+    <% if @syslog %>logger -p user.warn -t rdiff-backup $@<% else %>echo $@ >&2<% end %>
 }
 
 function info {
-    <% if @syslog %>
-        logger -p user.info -t rdiff-backup $@
-    <% else %>
-        echo $@
-    <% end %>
+    <% if @syslog %>logger -p user.info -t rdiff-backup $@<% else %>echo $@<% end %>
 }
 
 #######################################################
@@ -38,7 +30,7 @@ fi
 #######################################################
 # Backup                                              #
 #######################################################
-<%= @rdiffbin %> <%= @options %> --force --preserve-numerical-ids --remote-schema "ssh -i <%= @keyfile %> -C %s rdiff-backup --server" -b --include-globbing-filelist <%= @confdir %>/<%= @name %>.glob --exclude '**' <%= @ssh_user %>@<%= @name %>::<%= @rootdir %> <%= @dest %>/<%= @name %>/
+<%= @rdiffbin %> <%= @options %> --force --preserve-numerical-ids --remote-schema "ssh -i <%= @keyfile %> -C %s rdiff-backup --server" -b --include-globbing-filelist <%= @confdir %>/glob.d/<%= @name %>.glob --exclude '**' <%= @ssh_user %>@<%= @name %>::<%= @backuproot %> <%= @dest %>/<%= @name %>/
 if [[ $? -eq 0 ]]; then
         info "Backup OK"
 else 

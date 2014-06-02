@@ -48,6 +48,7 @@ class rdiff_backup (
 
     # create exported resource for backup script
     @@rdiff_backup::script { "${fqdn}":
+        ssh_user    => $ssh_user,
         retention   => $retention,
         backuproot  => $backuproot,
         options     => $options,

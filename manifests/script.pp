@@ -1,9 +1,19 @@
 # define script
 
-define rdiff_backup::script ( $rdiffbin, $confdir, $retention, $ssh_user, $rootdir, $options, $dest, $syslog = undef, $group = undef ) {
+define rdiff_backup::script ( 
+    $ssh_user, 
+    $retention, 
+    $backuproot, 
+    $confdir, 
+    $options, 
+    $destination, 
+    $keyfile,
+    $rdiffbin, 
+    $syslog = undef, 
+    $group = undef ) {
 
     if $group != undef {
-        $dest = "${dest}/${group}",
+        $dest = "${destination}/${group}"
     }
 
     # create backup script from template
