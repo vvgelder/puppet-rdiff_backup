@@ -64,10 +64,10 @@ class rdiff_backup (
 
 
     # export the local ssh key for backup server
-    if "$sshrsakey" {
-        @@sshkey { $hostname: type => rsa, key => $sshrsakey, tag => 'rdiff_backup', }
-    } elsif "$sshdsakey" {
-        @@sshkey { $hostname: type => dsa, key => $sshdsakey, tag => 'rdiff_backup', }
+    @@sshkey { 
+        $hostname: type => rsa, 
+        key => $sshrsakey, 
+        tag => 'rdiff_backup', 
     }
 
     @package { "rdiff-backup":

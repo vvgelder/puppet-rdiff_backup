@@ -6,8 +6,7 @@ class rdiff_backup::server (
         $destination   = '/var/backup',
     ) {
 
-    Sshkey <<| tag == 'rdiff_backup' |>> {
-    }
+    Sshkey <<| tag == 'rdiff_backup' |>>
 
     # realize globfile
     # overide variables for server
@@ -21,5 +20,11 @@ class rdiff_backup::server (
     # overide path variable to put file inside $confdir
     Rdiff_backup::Glob <<| tag == 'rdiff_glob_config' |>> {
         confdir => "${confdir}",
+    }
+
+    cron { backupdaily:
+        command   => "cd / && run-parts --report --regex '.*\.sh' $confdir/scripts.d",
+        user      => root,
+        special   => 'daily',
     }
 }
