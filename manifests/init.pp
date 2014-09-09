@@ -64,8 +64,8 @@ class rdiff_backup (
 
 
     # export the local ssh key for backup server
-    @@sshkey { 
-        $hostname: type => rsa, 
+    @@sshkey { $hostname: 
+        type => rsa, 
         key => $sshrsakey, 
         tag => 'rdiff_backup', 
     }

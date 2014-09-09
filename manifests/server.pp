@@ -4,6 +4,7 @@ class rdiff_backup::server (
         $keyfile       = '~/.ssh/id_rsa',
         $rdiffbin      = '/usr/bin/rdiff-backup',
         $destination   = '/var/backup',
+        $adminmail     = 'root',
     ) {
 
     Sshkey <<| tag == 'rdiff_backup' |>>
@@ -23,8 +24,8 @@ class rdiff_backup::server (
     }
 
     cron { backupdaily:
-        command   => "cd / && run-parts --report --regex '.*\.sh' $confdir/scripts.d",
-        user      => root,
-        special   => 'daily',
+        command    => "cd / && run-parts --report --regex '.*\.sh' $confdir/scripts.d",
+        user       => root,
+        special    => 'daily',
     }
 }
