@@ -25,10 +25,10 @@ function info {
 # Retention                                           #
 #######################################################
 if [ ! -d "$dest/$name/" ]; then
-        info "Create path: ${dest}/{$name}/"
-        mkdir -p "${dest}/{$name}/" || ( warn "Unable to create destination directory ${dest}/{$name}/" && continue )
-elif [ -d "${dest}/{$name}/rdiff-backup-data" ]; then
-        <%= @rdiffbin %> --force --remove-older-than $retention "${dest}/{$name}/" 
+        info "Create path: ${dest}/${name}/"
+        mkdir -p "${dest}/${name}/" || ( warn "Unable to create destination directory ${dest}/${name}/" && continue )
+elif [ -d "${dest}/${name}/rdiff-backup-data" ]; then
+        <%= @rdiffbin %> --force --remove-older-than $retention "${dest}/${name}/" 
         if [[ $? -eq 0 ]]; then
                 info "Retention OK"
         else
@@ -40,7 +40,7 @@ fi
 #######################################################
 # Backup                                              #
 #######################################################
-<%= @rdiffbin %> <%= @options %> --force --preserve-numerical-ids --remote-schema "ssh -i $keyfile -C %s rdiff-backup --server" -b --include-globbing-filelist ${confdir}/glob.d/${name}.glob --exclude '**' <%= @ssh_user %>@$name::$backuproot "${dest}/{$name}/"
+<%= @rdiffbin %> <%= @options %> --force --preserve-numerical-ids --remote-schema "ssh -i $keyfile -C %s rdiff-backup --server" -b --include-globbing-filelist ${confdir}/glob.d/${name}.glob --exclude '**' <%= @ssh_user %>@$name::$backuproot "${dest}/${name}/"
 if [[ $? -eq 0 ]]; then
         info "Backup OK"
 else 
